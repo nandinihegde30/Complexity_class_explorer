@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 def plot_runtime_curves(
     results: list[dict],
     output_path: str = "outputs/runtime_growth.png",
-) -> None:
+) -> Path:
     """Plot runtime curves for algorithms and save the graph."""
     if not results:
         raise ValueError("Results cannot be empty.")
@@ -47,3 +47,4 @@ def plot_runtime_curves(
         fig.savefig(output_file)
     finally:
         plt.close(fig)
+    return output_file
