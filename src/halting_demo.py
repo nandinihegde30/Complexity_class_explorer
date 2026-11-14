@@ -4,7 +4,21 @@
 START_NUMBER = 27
 
 
-def run_bounded_demo(start_number, max_steps=10):
+def halting_problem_explanation():
+    """Explain why the Halting Problem is undecidable."""
+
+    return (
+        "The Halting Problem asks whether a program will stop "
+        "or run forever for a given input. Alan Turing proved "
+        "that no algorithm can correctly answer this for every "
+        "possible program and input. Therefore, the Halting "
+        "Problem is undecidable. If a program does not stop "
+        "within a fixed step limit, we cannot conclude that "
+        "it will run forever."
+    )
+
+
+def run_bounded_demo(max_steps=10, start_number=START_NUMBER):
     """Run the Collatz process for a limited number of steps."""
 
     if type(start_number) is not int:
@@ -43,7 +57,9 @@ def run_bounded_demo(start_number, max_steps=10):
 
 
 if __name__ == "__main__":
-    number = int(input("Enter starting number: "))
+    print(halting_problem_explanation())
+
+    number = int(input("\nEnter starting number: "))
     limit = int(input("Enter maximum steps: "))
 
-    run_bounded_demo(number, limit)
+    run_bounded_demo(max_steps=limit, start_number=number)
