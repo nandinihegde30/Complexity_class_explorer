@@ -21,17 +21,17 @@ def halting_problem_explanation():
 def run_bounded_demo(max_steps=10, start_number=START_NUMBER):
     """Run the Collatz process for a limited number of steps."""
 
-    if type(max_steps) is not int:
-        raise TypeError("max_steps must be an integer")
-
-    if max_steps < 1:
-        raise ValueError("max_steps must be at least 1")
-
     if type(start_number) is not int:
         raise TypeError("Starting number must be an integer")
 
     if start_number < 1:
         raise ValueError("Starting number must be positive")
+
+    if type(max_steps) is not int:
+        raise TypeError("max_steps must be an integer")
+
+    if max_steps < 1:
+        raise ValueError("max_steps must be at least 1")
 
     n = start_number
     steps = 0
@@ -57,10 +57,9 @@ def run_bounded_demo(max_steps=10, start_number=START_NUMBER):
 
 
 if __name__ == "__main__":
-    number = int(input("Enter starting number: "))
-    limit = int(input("Enter maximum steps: "))
-
     print(halting_problem_explanation())
 
-    # Use keyword arguments so the inputs are not confused.
+    number = int(input("\nEnter starting number: "))
+    limit = int(input("Enter maximum steps: "))
+
     run_bounded_demo(max_steps=limit, start_number=number)
