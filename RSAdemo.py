@@ -55,37 +55,60 @@ def decrypt(ciphertext, private_key):
     return pow(ciphertext, d, n)
 
 
-# Main program
-print("===== RSA ENCRYPTION AND DECRYPTION =====")
+def demo_rsa(p=61, q=53, message=42):
+    """Educational demonstration of RSA key generation, encryption, and decryption."""
+    public_key, private_key, phi = generate_keys(p, q)
+    ciphertext = encrypt(message, public_key)
+    decrypted = decrypt(ciphertext, private_key)
+    return {
+        "p": p,
+        "q": q,
+        "n": p * q,
+        "phi": phi,
+        "public_key": public_key,
+        "private_key": private_key,
+        "message": message,
+        "ciphertext": ciphertext,
+        "decrypted": decrypted,
+        "success": message == decrypted,
+    }
 
-p = int(input("Enter first prime number: "))
-q = int(input("Enter second prime number: "))
 
-public_key, private_key, phi = generate_keys(p, q)
+def run_interactive_demo():
+    print("===== RSA ENCRYPTION AND DECRYPTION =====")
 
-print("\n----- KEY GENERATION -----")
-print("Prime number p:", p)
-print("Prime number q:", q)
-print("n = p * q:", p * q)
-print("Euler's Totient:", phi)
+    p = int(input("Enter first prime number: "))
+    q = int(input("Enter second prime number: "))
 
-print("\nPublic Key:", public_key)
-print("Private Key:", private_key)
+    public_key, private_key, phi = generate_keys(p, q)
 
-message = int(input("\nEnter a numeric message (0 to n-1): "))
+    print("\n----- KEY GENERATION -----")
+    print("Prime number p:", p)
+    print("Prime number q:", q)
+    print("n = p * q:", p * q)
+    print("Euler's Totient:", phi)
 
-ciphertext = encrypt(message, public_key)
+    print("\nPublic Key:", public_key)
+    print("Private Key:", private_key)
 
-print("\n----- ENCRYPTION -----")
-print("Original Message:", message)
-print("Encrypted Message:", ciphertext)
+    message = int(input("\nEnter a numeric message (0 to n-1): "))
 
-decrypted = decrypt(ciphertext, private_key)
+    ciphertext = encrypt(message, public_key)
 
-print("\n----- DECRYPTION -----")
-print("Decrypted Message:", decrypted)
+    print("\n----- ENCRYPTION -----")
+    print("Original Message:", message)
+    print("Encrypted Message:", ciphertext)
 
-if message == decrypted:
-    print("\nSUCCESS: Original message recovered!")
-else:
-    print("\nERROR: Decryption failed!")
+    decrypted = decrypt(ciphertext, private_key)
+
+    print("\n----- DECRYPTION -----")
+    print("Decrypted Message:", decrypted)
+
+    if message == decrypted:
+        print("\nSUCCESS: Original message recovered!")
+    else:
+        print("\nERROR: Decryption failed!")
+
+
+if __name__ == "__main__":
+    run_interactive_demo()
