@@ -1,7 +1,7 @@
 
 import pytest
 
-from src.subset_sum import subset_sum_bruteforce, benchmark_subset_sum
+from src.subset_sum import subset_sum_bruteforce, benchmark_subset_sum, verify_subset_sum
 
 
 def test_subset_exists():
@@ -70,3 +70,25 @@ def test_benchmark_returns_expected_fields():
 def test_benchmark_rejects_zero_trials():
     with pytest.raises(ValueError):
         benchmark_subset_sum(sizes=(2,), trials=0)
+
+
+def test_verify_subset_sum_valid_solution():
+    numbers = [3, 7, 12, 19, 5]
+    subset = [7, 12]
+    target = 19
+    assert verify_subset_sum(numbers, subset, target) is True
+
+
+def test_verify_subset_sum_wrong_sum():
+    numbers = [3, 7, 12, 19, 5]
+    subset = [7, 5]
+    target = 19
+    assert verify_subset_sum(numbers, subset, target) is False
+
+
+def test_verify_subset_sum_element_not_in_numbers():
+    numbers = [3, 7, 12]
+    subset = [7, 10]
+    target = 17
+    assert verify_subset_sum(numbers, subset, target) is False
+
