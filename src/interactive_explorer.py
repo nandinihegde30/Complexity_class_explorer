@@ -261,7 +261,7 @@ def run_crypto_interactive() -> None:
         print(f"Success:            {message == decrypted}")
         print("\nTheoretical Note:")
         print("Factoring n into p and q is hard for large numbers (sub-exponential GNFS),")
-        print("while modular exponentiation (pow) runs in polynomial time O((log n)^3).")
+        print("while modular exponentiation requires a polynomial number of bit operations in the size of the modulus under standard arithmetic models.")
         print("Note: Small-prime RSA without OAEP padding is for educational teaching only.")
 
     elif choice == "2":
@@ -322,8 +322,9 @@ def view_complexity_concepts() -> None:
     print("2. NP contains problems verifiable in polynomial time.")
     print("3. P vs NP asks whether every verifiable problem is efficiently solvable.")
     print("4. Undecidable problems cannot be decided by any general Turing Machine.")
-    print("5. Cryptography relies on average-case hardness; P != NP is necessary but not sufficient.")
-    print("6. Factoring is suspected to be NP-intermediate, not NP-complete.")
+    print("5. Modern cryptographic systems rely on the assumed computational hardness of specific mathematical problems.")
+    print("   The unresolved P versus NP question alone neither establishes nor guarantees cryptographic security.")
+    print("6. Integer factorization in its decision formulation is in NP and co-NP (suspected NP-intermediate, not NP-complete).")
 
 
 def main_interactive_menu() -> None:

@@ -45,7 +45,7 @@ Computational complexity theory classifies computational problems based on the i
 1. **Decision vs Sorting:** Formally, P and NP are classes of decision problems (yielding binary YES/NO outputs). Merge Sort is a polynomial-time sorting algorithm representing tractability in P.
 2. **NP Asymmetry:** Finding a valid subset among $2^n$ candidates requires exponential brute-force search ($O(n \cdot 2^n)$). However, verifying a given subset certificate takes only linear $O(n)$ time.
 3. **Step Limits in Halting:** Reaching a step limit in a Turing Machine simulation results in **UNKNOWN (STEP LIMIT REACHED)**. A finite step bound cannot distinguish slow termination from an infinite loop.
-4. **Cryptography and P vs NP:** $P \neq NP$ is a necessary condition for public-key cryptography, but **not sufficient**. Cryptography requires average-case hardness; integer factorization is in $NP \cap \text{co-}NP$ (suspected NP-intermediate, not NP-complete).
+4. **Cryptography and P vs NP:** Modern cryptographic systems rely on the assumed computational hardness of specific mathematical problems. The unresolved P versus NP question alone neither establishes nor guarantees cryptographic security. In particular, integer factorization in its decision formulation is in $NP \cap \text{co-}NP$ (suspected NP-intermediate, not NP-complete).
 
 ---
 

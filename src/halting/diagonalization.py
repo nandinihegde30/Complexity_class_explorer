@@ -11,6 +11,9 @@ This module models the classic proof by contradiction:
    - If H predicts D(D) halts -> D(D) loops forever (Contradiction).
    - If H predicts D(D) loops -> D(D) halts (Contradiction).
 4. Conclusion: Such an algorithm H cannot exist. The Halting Problem is undecidable.
+
+Note: This demonstration is an educational representation of the logical
+contradiction and does not implement a real universal Halting Problem decider.
 """
 
 from __future__ import annotations

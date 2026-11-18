@@ -13,16 +13,18 @@ def crypto_context() -> str:
     1. RSA Public-Key Cryptography:
        - Keys are derived from two large distinct primes (p and q).
        - The modulus n = p * q is made public; the totient phi(n) = (p-1)*(q-1) is kept secret.
-       - Encryption and decryption use modular exponentiation (pow(m, e, n) and pow(c, d, n)),
-         which runs in polynomial time O((log n)^3), making legitimate operations very fast.
+       - RSA encryption and decryption use modular exponentiation, which requires a polynomial
+         number of bit operations in the size of the modulus under standard arithmetic models.
        - Security relies on the hardness of the Integer Factorization problem: given n, find p and q.
        - Classical algorithms (e.g. General Number Field Sieve, GNFS) run in sub-exponential
          time O(exp(c * (log n)^(1/3) * (log log n)^(2/3))), not strictly exponential.
-       - Integer Factorization is in NP and co-NP, but is NOT known to be NP-complete. It is
-         widely believed to be in NP-intermediate.
-       - IMPORTANT: RSA security should NOT be described as simply relying on P != NP.
-         Even if P != NP in the worst case, cryptography requires average-case hardness.
-         Furthermore, Shor's quantum algorithm factors in polynomial time (BQP).
+       - In its decision formulation (determining whether n has a prime factor <= k), integer
+         factorization belongs to both NP and co-NP, and is widely suspected to be NP-intermediate
+         rather than NP-complete.
+       - IMPORTANT: Modern cryptographic systems rely on the assumed computational hardness of
+         specific mathematical problems. The unresolved P versus NP question alone neither establishes
+         nor guarantees cryptographic security. Furthermore, Shor's quantum algorithm factors in
+         polynomial time (BQP).
        - Toy implementations (like RSAdemo.py) using small primes and textbook RSA without padding
          (such as OAEP) are strictly educational and vulnerable to trivial factorization and attacks.
 
@@ -41,14 +43,15 @@ def crypto_context() -> str:
         "Cryptography and Computational Complexity:\n\n"
         "1. RSA Encryption and Integer Factorization:\n"
         "   - Public key (e, n) and private key (d, n) are derived from primes p and q where n = p * q.\n"
-        "   - Computing modular exponentiation for encryption c = m^e (mod n) and decryption m = c^d (mod n) "
-        "is efficient and runs in polynomial time O((log n)^3).\n"
+        "   - RSA encryption and decryption use modular exponentiation, which requires a polynomial "
+        "number of bit operations in the size of the modulus under standard arithmetic models.\n"
         "   - Inverting encryption without private key d requires factoring modulus n into p and q.\n"
         "   - Known classical factoring algorithms (such as the General Number Field Sieve) run in "
-        "sub-exponential time, not strictly exponential time. Factoring is in NP and co-NP, "
-        "and is suspected to be NP-intermediate, not NP-complete.\n"
-        "   - Crucially, RSA security does NOT simply rely on P != NP. Cryptography requires average-case "
-        "hardness and one-way functions, whereas P != NP is merely a worst-case separation.\n"
+        "sub-exponential time, not strictly exponential time. Integer factorization in its decision "
+        "formulation belongs to both NP and co-NP, and is suspected to be NP-intermediate rather than NP-complete.\n"
+        "   - Crucially, modern cryptographic systems rely on the assumed computational hardness of specific "
+        "mathematical problems. The unresolved P versus NP question alone neither establishes nor guarantees "
+        "cryptographic security.\n"
         "   - Note: The toy RSA implementation uses small primes and textbook formulas without OAEP padding, "
         "meaning it is intended solely for educational demonstration and is NOT secure for real-world use.\n\n"
         "2. Password Hashing and Computational Work:\n"
@@ -68,13 +71,12 @@ def rsa_theory_notes() -> dict:
         "totient": "phi(n) = (p - 1) * (q - 1).",
         "public_exponent": "e such that 1 < e < phi(n) and gcd(e, phi(n)) == 1.",
         "private_exponent": "d = e^(-1) mod phi(n), computed via Extended Euclidean Algorithm.",
-        "encryption_time": "O((log n)^3) - polynomial time via modular exponentiation.",
-        "decryption_time": "O((log n)^3) - polynomial time via modular exponentiation.",
-        "factoring_complexity": "Sub-exponential (GNFS), in NP and co-NP (suspected NP-intermediate).",
+        "encryption_efficiency": "Polynomial number of bit operations in modulus size under standard arithmetic models.",
+        "decryption_efficiency": "Polynomial number of bit operations in modulus size under standard arithmetic models.",
+        "factoring_complexity": "Sub-exponential (GNFS); decision formulation in NP and co-NP (suspected NP-intermediate).",
         "p_vs_np_relation": (
-            "P != NP is a necessary condition for public-key cryptography to exist, "
-            "but NOT sufficient. Cryptography requires average-case hardness, "
-            "whereas NP-completeness defines worst-case hardness. Factoring is not NP-complete."
+            "Modern cryptographic systems rely on the assumed computational hardness of specific mathematical problems. "
+            "The unresolved P versus NP question alone neither establishes nor guarantees cryptographic security."
         ),
         "educational_notice": "Toy RSA uses small primes without OAEP padding; strictly for teaching.",
     }

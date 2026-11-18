@@ -84,7 +84,7 @@ The core objectives of this project are:
 - **Cryptographic Security Context:**
   - Demonstrate RSA public-key encryption and explain the computational hardness of integer factorization.
   - Demonstrate salted password hashing with configurable work factors using PBKDF2-HMAC-SHA256.
-  - Clarify fundamental academic distinctions: why $P \neq NP$ is a necessary but not sufficient condition for secure cryptography.
+  - Clarify fundamental academic distinctions: Modern cryptographic systems rely on the assumed computational hardness of specific mathematical problems. The unresolved P versus NP question alone neither establishes nor guarantees cryptographic security.
 """))
 
     # 3. Explanation of Computational Complexity
@@ -168,7 +168,9 @@ for label, data in test_cases.items():
     cells.append(create_markdown_cell(r"""
 ## 6. Interactive Merge Sort Example
 
-Below is a demonstration simulating the Interactive Explore Mode for Merge Sort. It takes a custom user array, validates the input, measures precise execution time, and provides the computational complexity classification.
+Below is a reproducible demonstration of the Interactive Explore Mode for Merge Sort using a predefined sample array (`[45, 12, 89, 3, 21, 7, 64, 50, 18]`).
+
+> **Note on Interactivity:** This notebook cell demonstrates the explore workflow using fixed sample inputs to ensure automated, reproducible execution. To interactively enter your own arbitrary input arrays and experiment with custom inputs, run the primary terminal application via `python main.py` (Option 1).
 """))
 
     cells.append(create_code_cell("""
@@ -234,7 +236,9 @@ print(f"Verified in O(n) time? -> {is_valid}")
     cells.append(create_markdown_cell(r"""
 ## 8. Interactive Subset Sum Example
 
-Demonstrating the Interactive Explore Mode for Subset Sum. The user specifies an array of numbers and a target sum. The algorithm exhaustively searches for a satisfying subset, measures elapsed time, and validates the solution using polynomial-time certificate verification.
+Below is a reproducible demonstration of the Interactive Explore Mode for Subset Sum using a fixed sample instance (`[2, 3, 7, 8, 10]` with target `11`).
+
+> **Note on Interactivity:** This notebook cell demonstrates the explore workflow and certificate verification using fixed sample values to ensure reproducible execution. To interactively supply custom candidate numbers and arbitrary target sums, run the primary terminal application via `python main.py` (Option 2).
 """))
 
     cells.append(create_code_cell("""
@@ -341,6 +345,8 @@ Alan Turing proved that no general decider $H(P, I)$ can exist that accurately p
    - If $H(D, D) = \text{HALTS} \implies D(D)$ loops forever. **Contradiction!**
    - If $H(D, D) = \text{LOOPS\_FOREVER} \implies D(D)$ halts. **Contradiction!**
 4. Conclusion: Decider $H$ cannot exist. The Halting Problem is **undecidable**.
+
+> **Academic Note on Diagonalization:** This demonstration is an educational representation of the logical contradiction and does not implement a real universal Halting Problem decider.
 """))
 
     cells.append(create_code_cell("""
@@ -374,14 +380,13 @@ RSA (Rivest, Shamir, Adleman, 1978) relies on the asymmetry between multiplicati
 1. Primes $p$ and $q$ are chosen.
 2. Modulus $n = p \cdot q$ and totient $\phi(n) = (p-1)(q-1)$.
 3. Public exponent $e$ coprime to $\phi(n)$; private exponent $d = e^{-1} \pmod{\phi(n)}$.
-4. **Encryption:** $c = m^e \pmod n$, polynomial time $O((\log n)^3)$.
-5. **Decryption:** $m = c^d \pmod n$, polynomial time $O((\log n)^3)$.
+4. **Encryption & Decryption Efficiency:** RSA encryption ($c = m^e \pmod n$) and decryption ($m = c^d \pmod n$) use modular exponentiation, which requires a polynomial number of bit operations in the size of the modulus under standard arithmetic models.
 
 ### Complexity Analysis of Integer Factorization:
 - Classical factoring algorithms (e.g. General Number Field Sieve, GNFS) run in sub-exponential time:
   $$O\left(\exp\left(c \cdot (\log n)^{1/3} (\log \log n)^{2/3}\right)\right)$$
-- Factoring is in $NP \cap \text{co-}NP$ (suspected NP-intermediate, not NP-complete).
-- Cryptography requires average-case hardness; $P \neq NP$ is a necessary but not sufficient condition.
+- In its decision formulation (determining whether $n$ has a prime factor $\le k$), integer factorization belongs to both $NP$ and $\text{co-}NP$. It is widely suspected to be NP-intermediate rather than NP-complete.
+- Modern cryptographic systems rely on the assumed computational hardness of specific mathematical problems. The unresolved P versus NP question alone neither establishes nor guarantees cryptographic security.
 """))
 
     cells.append(create_code_cell("""
@@ -559,7 +564,7 @@ plt.show()
 2. **Asymmetry in NP:** Subset Sum is NP-Complete. While solving takes exponential time via brute-force, a proposed certificate is verified in linear $O(n)$ time.
 3. **Undecidability vs Step Limit:** Reaching a step limit in a Turing Machine simulation results in **UNKNOWN**, not proof of non-termination.
 4. **P vs NP Status:** Whether $P = NP$ remains an open problem.
-5. **Cryptography Complexity:** RSA security does not solely depend on $P \neq NP$; it requires average-case hardness. Integer factorization is suspected to be NP-intermediate, not NP-complete.
+5. **Cryptography Complexity:** Modern cryptographic systems rely on the assumed computational hardness of specific mathematical problems. The unresolved P versus NP question alone neither establishes nor guarantees cryptographic security. In particular, integer factorization in its decision formulation is in $NP \cap \text{co-}NP$ (suspected NP-intermediate, not NP-complete).
 """))
 
     # 16. Conclusion
