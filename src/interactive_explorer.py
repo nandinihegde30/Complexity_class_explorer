@@ -23,11 +23,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from RSAdemo import generate_keys, encrypt, decrypt
 from src.crypto_context import crypto_context
 from src.halting.diagonalization import demonstrate_diagonalization_paradox
-from src.halting.turing_machine import (
-    create_halting_machine,
-    create_infinite_loop_machine,
-    create_busy_beaver_or_counter_machine,
-)
+from src.halting.turing_machine import create_halting_machine
 from src.merge_sort import merge_sort
 from src.password_hashing import (
     hash_password,
@@ -151,18 +147,16 @@ def run_halting_interactive() -> None:
     """Mode 1C: Interactive Turing Machine & Halting Problem (Undecidable)."""
     print_header("HALTING PROBLEM – UNDECIDABLE")
 
-    print("Select a Turing Machine demonstration:")
-    print("1. Bit-Inverter Machine (Halting demonstration)")
-    print("2. Ping-Pong Oscillating Machine (Cycle demonstration)")
-    print("3. Unary Counter Machine (Step-limit demonstration)")
-    print("4. Turing's Diagonalization Proof (Contradiction)")
+    print("Select a Halting Problem demonstration:")
+    print("1. Bit-Inverter Machine (Turing Machine Halting demonstration)")
+    print("2. Turing's Diagonalization Proof (Contradiction)")
 
-    choice = input("\nEnter your choice (1-4): ").strip()
-    if choice not in ("1", "2", "3", "4"):
+    choice = input("\nEnter your choice (1-2): ").strip()
+    if choice not in ("1", "2"):
         print("Invalid choice. Returning to menu.")
         return
 
-    if choice == "4":
+    if choice == "2":
         print_header("TURING'S DIAGONALIZATION PROOF")
         demo = demonstrate_diagonalization_paradox()
         print("[Hypothesis A: Assume H(D, D) predicts 'HALTS']")
@@ -177,6 +171,7 @@ def run_halting_interactive() -> None:
         print(" ", demo["mathematical_conclusion"])
         return
 
+    # choice == "1"
     steps_raw = input("\nEnter maximum execution steps (e.g. 50): ").strip()
     try:
         max_steps = int(steps_raw)
@@ -188,34 +183,15 @@ def run_halting_interactive() -> None:
         return
 
     print("\nExecuting Turing Machine...")
-
-    if choice == "1":
-        # Halting machine
-        tape_in = input("Enter binary string tape (press Enter for default '1101'): ").strip()
-        if not tape_in:
-            tape_in = "1101"
-        tm = create_halting_machine(tape_in)
-        res = tm.run(max_steps=max_steps)
-        print(f"\nResult:         {res.result_category}")
-        print(f"Steps Executed: {res.steps}")
-        print(f"Final Tape:     {res.tape_content}")
-        print(f"\nExplanation:\n{res.explanation}")
-
-    elif choice == "2":
-        # Oscillating cycle
-        tm = create_infinite_loop_machine()
-        res = tm.run(max_steps=max_steps, detect_cycles=True)
-        print(f"\nResult:         {res.result_category}")
-        print(f"Steps Executed: {res.steps}")
-        print(f"\nExplanation:\n{res.explanation}")
-
-    elif choice == "3":
-        # Step limit reached
-        tm = create_busy_beaver_or_counter_machine()
-        res = tm.run(max_steps=max_steps, detect_cycles=False)
-        print(f"\nResult:         {res.result_category}")
-        print(f"Steps Executed: {res.steps}")
-        print(f"\nExplanation:\n{res.explanation}")
+    tape_in = input("Enter binary string tape (press Enter for default '1101'): ").strip()
+    if not tape_in:
+        tape_in = "1101"
+    tm = create_halting_machine(tape_in)
+    res = tm.run(max_steps=max_steps)
+    print(f"\nResult:         {res.result_category}")
+    print(f"Steps Executed: {res.steps}")
+    print(f"Final Tape:     {res.tape_content}")
+    print(f"\nExplanation:\n{res.explanation}")
 
 
 def run_crypto_interactive() -> None:

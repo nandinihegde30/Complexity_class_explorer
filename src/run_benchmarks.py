@@ -20,11 +20,7 @@ from typing import Sequence
 
 from src.merge_sort import benchmark_merge_sort, DEFAULT_MERGE_SORT_SIZES
 from src.subset_sum import benchmark_subset_sum, DEFAULT_SUBSET_SUM_SIZES
-from src.halting.turing_machine import (
-    create_halting_machine,
-    create_infinite_loop_machine,
-    create_busy_beaver_or_counter_machine,
-)
+from src.halting.turing_machine import create_halting_machine
 from src.plotting import (
     plot_merge_sort_growth,
     plot_subset_sum_growth,
@@ -62,7 +58,7 @@ def display_results_table(title: str, results: Sequence[dict]) -> None:
 
 
 def run_turing_machine_observations() -> list[dict]:
-    """Execute selected Turing Machine configurations and inspect step counts.
+    """Execute Turing Machine Bit-Inverter across different tape inputs.
 
     Academic Note:
     Unlike sorting or subset sum, undecidable problems have NO general runtime complexity.
@@ -70,77 +66,42 @@ def run_turing_machine_observations() -> list[dict]:
     arbitrary machine will halt.
     """
     observations = []
+    test_tapes = ["1", "110", "1101", "11010011"]
 
-    # Machine 1: Guaranteed to halt
-    tm_halt = create_halting_machine("1101")
-    res_halt = tm_halt.run(max_steps=100)
-    observations.append({
-        "machine": "Bit-Inverter Machine (Halting)",
-        "input_tape": "1101",
-        "max_steps": 100,
-        "steps_taken": res_halt.steps,
-        "status": res_halt.status,
-        "is_halted": res_halt.is_halted,
-        "note": "Halted normally upon scanning blank cell.",
-    })
-
-    # Machine 2: Infinite oscillating cycle
-    tm_loop = create_infinite_loop_machine()
-    res_loop = tm_loop.run(max_steps=50, detect_cycles=True)
-    observations.append({
-        "machine": "Ping-Pong Oscillating Machine (Cycle)",
-        "input_tape": "Empty",
-        "max_steps": 50,
-        "steps_taken": res_loop.steps,
-        "status": res_loop.status,
-        "is_halted": res_loop.is_halted,
-        "note": "Infinite periodic cycle detected via state memory.",
-    })
-
-    # Machine 3: Counter reaching step limit
-    tm_counter = create_busy_beaver_or_counter_machine()
-    res_counter = tm_counter.run(max_steps=25)
-    observations.append({
-        "machine": "Unary Counter Machine (Step Bound)",
-        "input_tape": "Empty",
-        "max_steps": 25,
-        "steps_taken": res_counter.steps,
-        "status": res_counter.status,
-        "is_halted": res_counter.is_halted,
-        "note": "Step limit reached. Status is UNKNOWN (cannot decide infinite loop).",
-    })
+    for tape in test_tapes:
+        tm = create_halting_machine(tape)
+        res = tm.run(max_steps=100)
+        observations.append({
+            "machine": f"Bit-Inverter (Tape '{tape}')",
+            "input_tape": tape,
+            "max_steps": 100,
+            "steps_taken": res.steps,
+            "status": res.status,
+            "is_halted": res.is_halted,
+            "note": f"Inverted {tape} and halted at q_halt.",
+        })
 
     return observations
 
 
 def display_turing_observations(observations: list[dict]) -> None:
-    """Print Turing Machine simulation results with distinct three-category outcomes."""
+    """Print Turing Machine simulation results."""
     print(f"\n{'=' * 80}")
-    print(" TURING MACHINE SIMULATOR: HALTING PROBLEM DEMONSTRATIONS")
+    print(" TURING MACHINE SIMULATOR: HALTING DEMONSTRATIONS")
     print(f"{'=' * 80}")
     print(
         f"{'Machine Name':<35} | {'Steps':<8} | {'Result Category':<32}"
     )
     print("-" * 80)
     for obs in observations:
-        # Map to the 3 required categories
-        status = obs["status"]
-        if status == "HALTED":
-            category = "HALTED"
-        elif status == "CYCLE_DETECTED":
-            category = "CYCLE DETECTED"
-        else:
-            category = "UNKNOWN (STEP LIMIT REACHED)"
-
+        category = "HALTED" if obs["status"] == "HALTED" else "UNKNOWN (STEP LIMIT REACHED)"
         print(
             f"{obs['machine'][:35]:<35} | {obs['steps_taken']:<8} | {category:<32}"
         )
     print("-" * 80)
     print("Key Theoretical Insight:")
-    print("  1. When a machine enters its halting state, we know it HALTED.")
-    print("  2. When periodic state cycle is detected, CYCLE DETECTED proves non-halting.")
-    print("  3. When step limit is reached, result is UNKNOWN (STEP LIMIT REACHED).")
-    print("     A finite step limit NEVER proves that the machine will never halt.")
+    print("  1. Deterministic Turing Machines with valid transitions halt at their halt state.")
+    print("  2. General halting status is undecidable; finite simulation alone cannot decide it.")
 
 
 def run_all_benchmarks(

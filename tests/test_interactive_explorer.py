@@ -100,29 +100,9 @@ def test_run_halting_interactive_halting_machine(capsys):
         assert "Steps Executed: 5" in captured.out
 
 
-def test_run_halting_interactive_cycle_machine(capsys):
-    # Choice 2 (Ping-Pong cycle), 50 steps
-    inputs = iter(["2", "50"])
-    with patch("builtins.input", side_effect=inputs):
-        run_halting_interactive()
-        captured = capsys.readouterr()
-        assert "Result:         CYCLE DETECTED" in captured.out
-
-
-def test_run_halting_interactive_step_limit_machine(capsys):
-    # Choice 3 (Unary Counter), 20 steps
-    inputs = iter(["3", "20"])
-    with patch("builtins.input", side_effect=inputs):
-        run_halting_interactive()
-        captured = capsys.readouterr()
-        assert "Result:         UNKNOWN (STEP LIMIT REACHED)" in captured.out
-        assert "Halts? False" not in captured.out
-        assert "Steps Executed: 20" in captured.out
-
-
 def test_run_halting_interactive_diagonalization(capsys):
-    # Choice 4 (Diagonalization)
-    with patch("builtins.input", return_value="4"):
+    # Choice 2 (Diagonalization)
+    with patch("builtins.input", return_value="2"):
         run_halting_interactive()
         captured = capsys.readouterr()
         assert "TURING'S DIAGONALIZATION PROOF" in captured.out
