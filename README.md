@@ -9,7 +9,7 @@ An academic and empirical exploration of computational complexity theory, coveri
 Computational complexity theory classifies computational problems based on the inherent resources (time and auxiliary space) required to solve them. This project provides:
 1. **Interactive Explore Mode (`main.py`):** An intuitive CLI interface allowing users to enter custom inputs, execute algorithms, inspect outputs, and view measured execution times and complexity classifications.
 2. **Automated Benchmark Mode (`src/run_benchmarks.py`):** Predefined input sizes measuring empirical runtime scaling, timeout protections, and publication-quality Matplotlib plots.
-3. **Formal Computability Demonstrations:** A deterministic **Turing Machine Simulator** demonstrating three distinct states (`HALTED`, `CYCLE DETECTED`, and `UNKNOWN (STEP LIMIT REACHED)`), accompanied by **Turing's Diagonalization Proof**.
+3. **Formal Computability Demonstrations:** A deterministic **Turing Machine Simulator** demonstrating step-by-step state transitions and clean halting behavior (`HALTED` / `UNKNOWN (STEP LIMIT REACHED)`), accompanied by **Turing's Diagonalization Proof** ($D(D)$).
 4. **Master Jupyter Notebook (`Complexity_Class_Explorer.ipynb`):** A complete 16-section interactive deliverable with all explanations, code cells, benchmark tables, and embedded Matplotlib plots.
 
 ---
@@ -28,7 +28,7 @@ Computational complexity theory classifies computational problems based on the i
 
 - **Language:** Python 3 (Tested on Python 3.10, 3.11, and 3.14)
 - **Data Visualization:** Matplotlib (Agg backend for headless generation; inline display in Jupyter)
-- **Testing Framework:** Pytest (Unit and regression test suite with mocking)
+- **Testing Framework:** Pytest (Comprehensive unit test suite with 68 passing tests)
 - **Interactive Environment:** Jupyter Notebook (`.ipynb` nbformat v4) and Visual Studio Code
 
 ---
@@ -60,10 +60,8 @@ python main.py
 1. **P Class – Merge Sort:** Enter custom integer arrays of any size. Displays original array, sorted result, measured execution time, and $O(n \log n)$ complexity analysis.
 2. **NP Class – Subset Sum:** Enter custom integer arrays and target sum. Explores subsets, displays found subset or reports no solution, validates solution via $O(n)$ polynomial verification, and warns/protects against large $n > 22$.
 3. **Undecidable – Halting Problem:**
-   - **Bit-Inverter Machine:** Reaches state `q_halt` -> `HALTED`.
-   - **Ping-Pong Oscillating Machine:** Oscillates indefinitely -> `CYCLE DETECTED`.
-   - **Unary Counter Machine:** Exceeds step bound -> `UNKNOWN (STEP LIMIT REACHED)`.
-   - **Turing's Diagonalization Proof:** Demonstrates the logical contradiction of $H(D, D)$.
+   - **Bit-Inverter Machine:** Executes transitions on a binary tape and halts at state `q_halt` -> `HALTED`.
+   - **Turing's Diagonalization Proof:** Demonstrates the mathematical contradiction of the adversary machine $D(D)$.
 4. **Cryptography Demonstration:**
    - **RSA Public-Key:** Key generation, encryption $c = m^e \pmod n$, decryption $m = c^d \pmod n$, and integer factorization discussion.
    - **Password Hashing:** Random salting (`secrets.token_bytes`), PBKDF2-HMAC-SHA256, constant-time verification, and work factor benchmark.
@@ -204,25 +202,27 @@ Subset Sum Decision Problem – NP-Complete
 
 ### Sample 3: Interactive Halting Problem
 ```text
-========== HALTING PROBLEM – UNDECIDABLE ==========
+==================================================
+ HALTING PROBLEM – UNDECIDABLE
+==================================================
 
-Select a Turing Machine demonstration:
-1. Bit-Inverter Machine (Halting demonstration)
-2. Ping-Pong Oscillating Machine (Cycle demonstration)
-3. Unary Counter Machine (Step-limit demonstration)
-4. Turing's Diagonalization Proof (Contradiction)
+Select a Halting Problem demonstration:
+1. Bit-Inverter Machine (Turing Machine Halting demonstration)
+2. Turing's Diagonalization Proof (Contradiction)
 
-Enter your choice (1-4): 3
+Enter your choice (1-2): 1
 
-Enter maximum execution steps (e.g. 50): 25
+Enter maximum execution steps (e.g. 50): 50
 
 Executing Turing Machine...
+Enter binary string tape (press Enter for default '1101'): 1101
 
-Result:         UNKNOWN (STEP LIMIT REACHED)
-Steps Executed: 25
+Result:         HALTED
+Steps Executed: 5
+Final Tape:     BB0010BBB
 
 Explanation:
-Simulation step limit (25) was reached while in state 'q0'. The halting status is UNKNOWN: finite simulation alone cannot determine whether the machine would halt on a subsequent step or loop forever.
+Machine reached halting state 'q_halt' after 5 step(s).
 ```
 
 ---
