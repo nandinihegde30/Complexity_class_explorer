@@ -282,23 +282,17 @@ print("Subset Sum Decision Problem – NP-Complete")
     cells.append(create_markdown_cell(r"""
 ## 9. Turing Machine Simulator Demonstration (Undecidable)
 
-### 9.1 Simulating State Machines and Step Bounds
-A deterministic Turing Machine consists of an infinite tape, a tape head, discrete states, and transition rules $\delta(q, \sigma) \to (q', \sigma', D)$.
+### 9.1 Simulating State Machines and Halting Transitions
+A deterministic Turing Machine consists of a discrete tape, a tape head, discrete states, and transition rules $\delta(q, \sigma) \to (q', \sigma', D)$.
 
-We demonstrate three distinct operational outcomes:
-1. **HALTED:** Machine reaches a designated halting state (`q_halt`).
-2. **CYCLE DETECTED:** Machine enters a repeating periodic configuration $(q, \text{head}, \text{tape})$ from which it can never escape.
-3. **UNKNOWN (STEP LIMIT REACHED):** Machine hits its configured step bound without halting.
-   > **Critical Academic Rule:** Never report `Halts? False` when a step bound is reached. The status is strictly **UNKNOWN**, as finite simulation cannot distinguish slow termination from an infinite loop.
+We demonstrate a formal Turing Machine running on an input tape:
+* The machine processes binary bits, inverts them (`1` $\to$ `0`, `0` $\to$ `1`), and transitions through states until it encounters a blank symbol (`B`), where it halts at `q_halt`.
+* If a step bound is reached before reaching a halting state, the status is strictly **UNKNOWN (STEP LIMIT REACHED)**, as finite simulation cannot distinguish slow termination from an infinite loop.
 """))
 
     cells.append(create_code_cell("""
-# 9.1 Execute Turing Machine configurations
-from src.halting.turing_machine import (
-    create_halting_machine,
-    create_infinite_loop_machine,
-    create_busy_beaver_or_counter_machine,
-)
+# 9.1 Execute Turing Machine configuration
+from src.halting.turing_machine import create_halting_machine
 
 print("=" * 70)
 print(" 1. MACHINE THAT HALTS (Binary Bit Inverter)")
@@ -309,24 +303,6 @@ print(f"Result Category: {res1.result_category}")
 print(f"Steps Executed:  {res1.steps}")
 print(f"Tape View:       {res1.tape_content}")
 print(f"Explanation:     {res1.explanation}\\n")
-
-print("=" * 70)
-print(" 2. MACHINE IN PERIODIC CYCLE (Ping-Pong State Loop)")
-print("=" * 70)
-tm2 = create_infinite_loop_machine()
-res2 = tm2.run(max_steps=50, detect_cycles=True)
-print(f"Result Category: {res2.result_category}")
-print(f"Steps Executed:  {res2.steps}")
-print(f"Explanation:     {res2.explanation}\\n")
-
-print("=" * 70)
-print(" 3. MACHINE REACHING STEP LIMIT (Unknown Status)")
-print("=" * 70)
-tm3 = create_busy_beaver_or_counter_machine()
-res3 = tm3.run(max_steps=20)
-print(f"Result Category: {res3.result_category}")
-print(f"Steps Executed:  {res3.steps}")
-print(f"Explanation:     {res3.explanation}")
 """))
 
     # 10. Halting Problem and Diagonalization Explanation
